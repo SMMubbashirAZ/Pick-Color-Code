@@ -1,0 +1,39 @@
+ private void setBackground(String bagimg, LinearLayout mylinearLayout) {
+
+        Picasso.get().load(bagimg).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Palette.from(bitmap).generate(palette -> {
+                    int defaultValue=0x000000;
+                    int vibrant = palette.getVibrantColor(defaultValue);
+                    int vibrantLight = palette.getLightVibrantColor(defaultValue);
+                    int vibrantDark = palette.getDarkVibrantColor(defaultValue);
+                    int muted = palette.getMutedColor(defaultValue);
+                    int mutedLight = palette.getLightMutedColor(defaultValue);
+                    int mutedDark = palette.getDarkMutedColor(defaultValue);
+                    // tv.setBackgroundColor(vibrant);
+                    Log.d(TAG, "onGenerated: "+vibrant);
+                    Log.d(TAG, "onGenerated2: "+vibrantLight);
+                    // Drawable mdr=getApplicationContext().getResources().getDrawable(R.drawable.lay_bg);
+                    //mdr.setColorFilter(new PorterDuffColorFilter(vibrant, PorterDuff.Mode.MULTIPLY));
+                    if (vibrant == 0) {
+                        mylinearLayout.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.bg_grad));
+                    }else{
+                        mylinearLayout.setBackgroundColor(vibrant);
+                    }
+
+                });
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+            
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
+        
+    }
